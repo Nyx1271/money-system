@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="プログラミング、副業ブログ、個人開発、便利ツールを学べるサイトです。" />
     <title>モダン副業ブログ</title>
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -11,34 +12,47 @@
       <h1>モダン副業ブログ</h1>
       <nav>
         <a href="#blog">ブログ</a>
+        <a href="#monetize">収益化導線</a>
         <a href="#products">デジタル商品</a>
-        <a href="#contact">お問い合わせ</a>
+        <a href="#advertising">広告</a>
       </nav>
     </header>
     <main>
-      <section id="hero">
-        <h2>あなたのスキルを収益に変えよう</h2>
-        <p>プログラミング、ブログ運営、デジタル商品の販売など、さまざまな方法で副収入を得るアイデアを提供します。</p>
+      <section id="hero" class="hero-box">
+        <p class="eyebrow">Engineer Side Project Lab</p>
+        <h2>プログラミング知識を、記事・ツール紹介・商品販売につなげる。</h2>
+        <p>プログラミング、ブログ運営、個人開発、便利ツールの使い方を整理しながら、長期的に読まれる記事を積み上げます。</p>
+        <div class="hero-actions">
+          <a href="#blog" class="btn">最新記事を見る</a>
+          <a href="#monetize" class="btn secondary">おすすめ導線を見る</a>
+        </div>
       </section>
-      <!-- Blog posts section -->
+
+      <section id="monetize" class="monetize-box">
+        <h2>収益化導線</h2>
+        <p>記事を読んだ人が次に使えるサービス・教材・ツールへ進める導線です。リンクはASP登録後に差し替えてください。</p>
+        <div class="cards">
+          <article class="card cta-card">
+            <h3>ブログを始める人向け</h3>
+            <p>サーバー、ドメイン、WordPress、GitHub Pagesなどの記事へ誘導します。</p>
+            <a href="#blog" class="btn">関連記事へ</a>
+          </article>
+          <article class="card cta-card">
+            <h3>学習したい人向け</h3>
+            <p>プログラミング学習、書籍、オンライン教材の比較記事へ誘導します。</p>
+            <a href="#blog" class="btn">学習記事へ</a>
+          </article>
+          <article class="card cta-card">
+            <h3>開発を効率化したい人向け</h3>
+            <p>VS Code、GitHub Actions、AIツールなどの紹介記事へ誘導します。</p>
+            <a href="#blog" class="btn">ツール記事へ</a>
+          </article>
+        </div>
+      </section>
+
       <section id="blog">
         <h2>最新記事</h2>
         <div class="cards">
-          <article class="card">
-            <h3>ブログ収益化の基本</h3>
-            <p>ブログを始めて広告やアフィリエイトで収益を上げる方法について解説します。</p>
-            <a href="#">続きを読む</a>
-          </article>
-          <article class="card">
-            <h3>小規模SaaSを作って販売する</h3>
-            <p>ニッチな課題を解決するWebサービスを開発し、サブスクリプションモデルで収入を得る例を紹介します。</p>
-            <a href="#">続きを読む</a>
-          </article>
-          <article class="card">
-            <h3>テンプレート販売で資産を作る</h3>
-            <p>コードやデザインのテンプレートをオンラインマーケットで販売することで、継続的な収益を得る方法を提案します。</p>
-            <a href="#">続きを読む</a>
-          </article>
         <!-- AUTO_ARTICLES_START -->
           <article class="card auto-article"><h3>2026 04 30 エンジニア向け便利ツールの選び方</h3><p>自動追加された記事です。</p><a href="articles/2026-04-30-%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E5%90%91%E3%81%91%E4%BE%BF%E5%88%A9%E3%83%84%E3%83%BC%E3%83%AB%E3%81%AE%E9%81%B8%E3%81%B3%E6%96%B9.html">続きを読む</a></article>
           <article class="card auto-article"><h3>canva</h3><p>自動追加された記事です。</p><a href="articles/2026-04-30-10-canva.html">続きを読む</a></article>
@@ -54,48 +68,38 @@
         <!-- AUTO_ARTICLES_END -->
         </div>
       </section>
-      <!-- Products section -->
+
       <section id="products">
-        <h2>おすすめデジタル商品</h2>
+        <h2>デジタル商品・販売候補</h2>
         <div class="cards">
           <div class="card product-card">
-            <h3>スタートアップ用Webサイトテンプレート</h3>
-            <p>モダンなデザインとレスポンシブ対応のHTML/CSSテンプレート。プロジェクトの立ち上げに最適です。</p>
-            <a href="#" class="btn">詳細を見る</a>
+            <h3>Webサイトテンプレート</h3>
+            <p>GitHub PagesやVercelで公開できるHTML/CSSテンプレート。BOOTHやGumroad販売候補です。</p>
+            <a href="#" class="btn">販売ページ準備中</a>
           </div>
           <div class="card product-card">
             <h3>請求書ジェネレーター</h3>
-            <p>フリーランス向けに簡単に請求書を作成できるスクリプト。カスタマイズ可能です。</p>
-            <a href="#" class="btn">詳細を見る</a>
+            <p>フリーランス向けに請求書を作れる軽量ツール。完成後に商品ページへ差し替えます。</p>
+            <a href="#" class="btn">販売ページ準備中</a>
+          </div>
+          <div class="card product-card">
+            <h3>記事テンプレート集</h3>
+            <p>ブログ記事、比較記事、レビュー記事のテンプレート集。noteやPDF販売に向いています。</p>
+            <a href="#" class="btn">販売ページ準備中</a>
           </div>
         </div>
       </section>
-      <!-- Advertisement placeholder -->
+
       <section id="advertising">
         <h2>スポンサーリンク</h2>
         <div class="ad-placeholder">
-          広告スペース（ここにGoogle AdSense等を設置）
+          広告スペース（Google AdSense審査通過後にコードを設置）
         </div>
       </section>
-      <!-- Contact section -->
-      <section id="contact">
-        <h2>お問い合わせ</h2>
-        <p>副業に関するご相談やお問い合わせはこちらからどうぞ。</p>
-        <form>
-          <label>
-            お名前<br />
-            <input type="text" name="name" required />
-          </label>
-          <label>
-            メールアドレス<br />
-            <input type="email" name="email" required />
-          </label>
-          <label>
-            お問い合わせ内容<br />
-            <textarea name="message" rows="4" required></textarea>
-          </label>
-          <button type="submit" class="btn">送信</button>
-        </form>
+
+      <section class="policy-box">
+        <h2>運営方針</h2>
+        <p>掲載するサービスや商品は、実際に検証できるものを優先します。広告・アフィリエイトリンクを含む場合があります。</p>
       </section>
     </main>
     <footer>
