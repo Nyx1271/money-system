@@ -7,6 +7,11 @@ const today = new Date();
 const date = today.toISOString().split('T')[0];
 const daySeed = Math.floor(today.getTime() / 86400000);
 
+const RAKUTEN_MARKET_URL = 'https://rpx.a8.net/svt/ejp?a8mat=4B1XE0+30CWVM+2HOM+67Z9T&rakuten=y&a8ejpredirect=http%3A%2F%2Fhb.afl.rakuten.co.jp%2Fhgc%2F0ea62065.34400275.0ea62066.204f04c0%2Fa26043007918_4B1XE0_30CWVM_2HOM_67Z9T%3Fpc%3Dhttp%253A%252F%252Fwww.rakuten.co.jp%252F%26m%3Dhttp%253A%252F%252Fm.rakuten.co.jp%252F';
+const RAKUTEN_TRAVEL_URL = 'https://rpx.a8.net/svt/ejp?a8mat=4B1XE0+30CWVM+2HOM+6I9N5&rakuten=y&a8ejpredirect=http%3A%2F%2Fhb.afl.rakuten.co.jp%2Fhgc%2F0eb4779e.5d30c5ba.0eb4779f.b871e4e3%2Fa26043007918_4B1XE0_30CWVM_2HOM_6I9N5%3Fpc%3Dhttp%253A%252F%252Ftravel.rakuten.co.jp%252F%26m%3Dhttp%253A%252F%252Ftravel.rakuten.co.jp%252F';
+const RAKUTEN_MARKET_PIXEL = 'https://www13.a8.net/0.gif?a8mat=4B1XE0+30CWVM+2HOM+67Z9T';
+const RAKUTEN_TRAVEL_PIXEL = 'https://www13.a8.net/0.gif?a8mat=4B1XE0+30CWVM+2HOM+6I9N5';
+
 const evergreenTopics = [
   'プログラマー 副業 何から始める',
   'GitHub Pages 使い方 初心者',
@@ -41,9 +46,7 @@ const fallbackDailyTopics = [
 
 function pickRotating(list, count, offset = 0) {
   const result = [];
-  for (let i = 0; i < count; i++) {
-    result.push(list[(daySeed + offset + i) % list.length]);
-  }
+  for (let i = 0; i < count; i++) result.push(list[(daySeed + offset + i) % list.length]);
   return result;
 }
 
@@ -65,12 +68,7 @@ async function fetchDailyTopics() {
 }
 
 function safeSlug(input, index) {
-  const ascii = input
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-zA-Z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .toLowerCase();
+  const ascii = input.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-+|-+$/g, '').toLowerCase();
   return `${date}-${String(index + 1).padStart(2, '0')}-${ascii || 'article'}`;
 }
 
@@ -78,7 +76,24 @@ function escapeHtml(str) {
   return str.replace(/[&<>"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[char]));
 }
 
-function articleBody({ title, category, index }) {
+function affiliateBlock(category) {
+  const isTravel = category === '今日のトピック';
+  const url = isTravel ? RAKUTEN_TRAVEL_URL : RAKUTEN_MARKET_URL;
+  const pixel = isTravel ? RAKUTEN_TRAVEL_PIXEL : RAKUTEN_MARKET_PIXEL;
+  const label = isTravel ? '楽天トラベルで関連サービスを見る' : '楽天で関連商品を探す';
+  const text = isTravel
+    ? 'イベント参加や勉強会、作業旅行を考える場合は、宿泊先や移動先の候補も早めに確認しておくと安心です。'
+    : '学習本、作業用ガジェット、デスク周りの道具などは、必要になったタイミングで比較して選ぶのがおすすめです。';
+
+  return `<aside class="affiliate-box">
+        <h3>関連リンク</h3>
+        <p>${text}</p>
+        <a class="btn" href="${url}" rel="nofollow sponsored">${label}</a>
+        <img border="0" width="1" height="1" src="${pixel}" alt="" />
+      </aside>`;
+}
+
+function articleBody({ title, category }) {
   const escapedTitle = escapeHtml(title);
   const escapedCategory = escapeHtml(category);
   return `<!DOCTYPE html>
@@ -86,13 +101,13 @@ function articleBody({ title, category, index }) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${escapedTitle}</title>
+  <title>${escapedTitle} | エンジニア副業ラボ</title>
   <meta name="description" content="${escapedTitle}について、初心者向けに手順と注意点を整理します。" />
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
   <header>
-    <h1><a href="../index.html">モダン副業ブログ</a></h1>
+    <h1><a href="../index.html">エンジニア副業ラボ</a></h1>
   </header>
   <main>
     <article class="article-page">
@@ -106,10 +121,12 @@ function articleBody({ title, category, index }) {
         <li>失敗しやすい注意点</li>
         <li>次に取るべき行動</li>
       </ul>
+      ${affiliateBlock(category)}
       <h3>最初にやること</h3>
       <p>まずは目的を一つに絞ります。アクセスを増やしたいのか、学習記録を残したいのか、サービス紹介につなげたいのかで記事の書き方は変わります。</p>
       <h3>具体的な進め方</h3>
       <p>検索する人が知りたい順番に合わせて、結論、理由、手順、注意点の流れでまとめます。専門用語を使う場合は、最初に短く説明します。</p>
+      ${affiliateBlock(category)}
       <h3>注意点</h3>
       <p>自動生成だけに頼ると内容が薄くなりやすいです。公開後にアクセスがある記事から順番に、人間の経験やスクリーンショットを追加して改善します。</p>
       <h3>まとめ</h3>
@@ -123,20 +140,11 @@ function articleBody({ title, category, index }) {
 
 function updateIndex() {
   let indexHtml = fs.readFileSync(indexPath, 'utf8');
-  const files = fs.readdirSync(articlesDir)
-    .filter((file) => file.endsWith('.html'))
-    .sort()
-    .reverse();
-
+  const files = fs.readdirSync(articlesDir).filter((file) => file.endsWith('.html')).sort().reverse();
   const items = files.map((file) => {
-    const title = file
-      .replace(/^\d{4}-\d{2}-\d{2}-\d{2}-/, '')
-      .replace(/\.html$/, '')
-      .replace(/-/g, ' ')
-      .replace(/\barticle\b/g, '記事');
+    const title = file.replace(/^\d{4}-\d{2}-\d{2}-\d{2}-/, '').replace(/\.html$/, '').replace(/-/g, ' ').replace(/\barticle\b/g, '記事');
     return `          <article class="card auto-article"><h3>${escapeHtml(title)}</h3><p>自動追加された記事です。</p><a href="articles/${encodeURI(file)}">続きを読む</a></article>`;
   }).join('\n');
-
   const autoBlock = `        <!-- AUTO_ARTICLES_START -->\n${items}\n        <!-- AUTO_ARTICLES_END -->`;
   if (indexHtml.includes('<!-- AUTO_ARTICLES_START -->')) {
     indexHtml = indexHtml.replace(/        <!-- AUTO_ARTICLES_START -->[\s\S]*?        <!-- AUTO_ARTICLES_END -->/, autoBlock);
@@ -147,7 +155,6 @@ function updateIndex() {
 }
 
 fs.mkdirSync(articlesDir, { recursive: true });
-
 const dailyTopics = await fetchDailyTopics();
 const topics = [
   ...dailyTopics.slice(0, 5).map((title) => ({ title, category: '今日のトピック' })),
@@ -158,7 +165,7 @@ const topics = [
 topics.forEach((topic, index) => {
   const file = path.join(articlesDir, `${safeSlug(topic.title, index)}.html`);
   if (!fs.existsSync(file)) {
-    fs.writeFileSync(file, articleBody({ ...topic, index }));
+    fs.writeFileSync(file, articleBody(topic));
     console.log('Generated:', file);
   } else {
     console.log('Skipped existing:', file);
