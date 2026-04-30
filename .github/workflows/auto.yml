@@ -19,3 +19,4 @@ jobs:
           git add .
           git commit -m "auto article" || echo "no changes"
           git push
+          
