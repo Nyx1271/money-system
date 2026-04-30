@@ -1,0 +1,21 @@
+name: Auto Article
+on:
+  schedule:
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+      - name: Generate article
+        run: node scripts/generate-article.mjs
+      - name: Commit
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@example.com"
+          git add .
+          git commit -m "auto article" || echo "no changes"
+          git push
